@@ -1,22 +1,14 @@
-const fs = require('fs');
+import os
 
-// Get the file path and string from the command line arguments
-const filePath = process.argv[2];
-const content = process.argv[3];
+def write_to_file(file_path, content):
+    try:
+        with open(file_path, 'w', encoding='utf-8') as file:
+            file.write(content)
+        print(f"Content successfully written to {file_path}")
+    except Exception as e:
+        print(f"Error writing to {file_path}: {e}")
 
-// Function to write the string to the file
-function writeFile(filePath, content) {
-    fs.writeFile(filePath, content, 'utf8', (err) => {
-        if (err) {
-            // Print the error object if an error occurs
-            console.error(err);
-        }
-    });
-}
-
-// Ensure that both file path and content are provided
-if (filePath && content) {
-    writeFile(filePath, content);
-} else {
-    console.error('Please provide both a file path and a string to write as arguments.');
-}
+# Example usage:
+file_path = 'example.txt'
+content_to_write = "Hello, world! This is the content to write."
+write_to_file(file_path, content_to_write)
