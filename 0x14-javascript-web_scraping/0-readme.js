@@ -1,16 +1,25 @@
-import sys
+const fs = require('fs');
+const path = require('path');
 
-def read_and_print_file(file_path):
-    try:
-        with open(file_path, 'r', encoding='utf-8') as file:
-            content = file.read()
-            print(content)
-    except Exception as e:
-        print(f"An error occurred: {e}")
+// Get the file path from the command line arguments
+const filePath = process.argv[2];
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python script.py <file_path>")
-    else:
-        file_path = sys.argv[1]
-        read_and_print_file(file_path)
+// Function to read and print the file content
+function readFile(filePath) {
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            // Print the error object if an error occurs
+            console.error(err);
+        } else {
+            // Print the content of the file if no error occurs
+            console.log(data);
+        }
+    });
+}
+
+// Ensure that a file path was provided
+if (filePath) {
+    readFile(filePath);
+} else {
+    console.error('Please provide a file path as an argument.');
+}
