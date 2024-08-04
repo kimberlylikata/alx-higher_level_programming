@@ -1,61 +1,72 @@
 #!/usr/bin/python3
-"""Unittests for max_integer([..])."""
-
+"""Unittest for max_integer([..])
+"""
 import unittest
-max_integer = __import__('6-max_integer').max_integer
-
+max_integer = __import__("6-max_integer").max_integer
 
 class TestMaxInteger(unittest.TestCase):
-    """Define unittests for max_integer([..])."""
-
-    def test_ordered_list(self):
-        """Test an ordered list of integers."""
-        ordered = [1, 2, 3, 4]
-        self.assertEqual(max_integer(ordered), 4)
-
-    def test_unordered_list(self):
-        """Test an unordered list of integers."""
-        unordered = [1, 2, 4, 3]
-        self.assertEqual(max_integer(unordered), 4)
-
-    def test_max_at_begginning(self):
-        """Test a list with a beginning max value."""
-        max_at_beginning = [4, 3, 2, 1]
-        self.assertEqual(max_integer(max_at_beginning), 4)
+    def test_valid_result(self):
+        """
+	Tests for valid inputs and valid outputs (expected results).
+	"""
+        self.assertEqual(max_integer([1, 2, 3, 4, 5]), 5)
+        self.assertEqual(max_integer([-45, 32, 2129, -34]), 2129)
 
     def test_empty_list(self):
-        """Test an empty list."""
-        empty = []
-        self.assertEqual(max_integer(empty), None)
+        """
+	Tests for empty lists
+	"""
+        self.assertIsNone(max_integer([]))
 
-    def test_one_element_list(self):
-        """Test a list with a single element."""
-        one_element = [7]
-        self.assertEqual(max_integer(one_element), 7)
+    def test_invalid_input(self) -> None:
+        """
+	Tests for invalid input given to the function.
+	"""
+        # test for invalid input
+        with self.assertRaises(TypeError):
+            max_integer(56)
+            max_integer(89.34)
+            max_integer([[9, 3], 4])
 
-    def test_floats(self):
-        """Test a list of floats."""
-        floats = [1.53, 6.33, -9.123, 15.2, 6.0]
-        self.assertEqual(max_integer(floats), 15.2)
+            # '>' is not supported between two dictionaries
+            max_integer([{"one": 1, "two": 2}, {"three": 3, "four": 4}])
 
-    def test_ints_and_floats(self):
-        """Test a list of ints and floats."""
-        ints_and_floats = [1.53, 15.5, -9, 15, 6]
-        self.assertEqual(max_integer(ints_and_floats), 15.5)
+        with self.assertRaises(KeyError):
+            max_integer({"one": 1, "two": 2})
 
-    def test_string(self):
-        """Test a string."""
-        string = "Brennan"
-        self.assertEqual(max_integer(string), 'r')
+    def test_all_negatives(self):
+        """
+	Tests for the maximum number in an all-negative numbers list.
+	"""
+        self.assertEqual(max_integer([-1, -45, -4, -2, -56, -90, -100]), -1)
 
-    def test_list_of_strings(self):
-        """Test a list of strings."""
-        strings = ["Brennan", "is", "my", "name"]
-        self.assertEqual(max_integer(strings), "name")
+    def test_repeating_numbers(self):
+        """
+	Tests repeating numbers that are not the maximum integer.
+	"""
+        self.assertEqual(max_integer([4, -1, -4, 4, 9, 5, 4, 10]), 10)
+        self.assertEqual(max_integer([2, 4, 6, 4, 8]), 8)
 
-    def test_empty_string(self):
-        """Test an empty string."""
-        self.assertEqual(max_integer(""), None)
+    def test_repeating_max_numbers(self):
+        """
+	Tests for a maximum number that repeats itself in the list.
+	"""
+        self.assertEqual(max_integer([100, 4, -2, 100, 23, 99, 100, -32]), 100)
 
-if __name__ == '__main__':
-    unittest.main()
+    def test_many_numbers(self):
+        """
+	Tests for the maximum number in a list with many numbers.
+	"""
+        self.assertEqual(max_integer([-50, 0, 10, -20, 30, -40, 0, 5, 15,
+                                      -25, 35, -45, 0, 25, -15, 20, -30, 40,
+                                      -10, 50, 0, -5, 45, -35, 30, 0, -20, 10,
+                                      -40, 50, -30, 0, 35, -25, 15, -5, 25, 0,
+                                      -45, 20, -35, 45, 0, -15, 30, -10, 40,
+                                      50, 0, 5, -40, 35, -45, 10, 0, -20, 50,
+                                      30, 15, 20, 0, -25, -5, -35, -15, 25, 0,
+                                      -50, -40, 5, 30, -20, 98, 35, -10, 20,
+                                      45, 10, 0, -30, 15, -25, 25, -5, 0, 40,
+                                      -35, 30, -20, 45, 0, -10, 50, -15, 5,
+                                      -25, 0, 20, -30, -40, 35, -50, 0, -5,
+                                      10, -45, 25, -15, 0, 30, -20, 40, -35,
+                                      15, 102]), 102)

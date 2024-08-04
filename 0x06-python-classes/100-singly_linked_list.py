@@ -4,21 +4,21 @@
 
 
 class Node:
-    """Represent a node in a singly-linked list."""
+    """node in a singly-linked list."""
 
     def __init__(self, data, next_node=None):
         """Initialize a new Node.
 
         Args:
-            data (int): The data of the new Node.
-            next_node (Node): The next node of the new Node.
+            data (int): The data of new Node.
+            next_node (Node): next node of new Node.
         """
         self.data = data
         self.next_node = next_node
 
     @property
     def data(self):
-        """Get/set the data of the Node."""
+        """Get/set the data of Node."""
         return (self.__data)
 
     @data.setter
@@ -78,4 +78,3 @@ class SinglyLinkedList:
             values.append(str(tmp.data))
             tmp = tmp.next_node
         return ('\n'.join(values))
-

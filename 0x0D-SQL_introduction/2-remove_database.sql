@@ -1,3 +1,3 @@
--- deletes the database hbtn_0c_0
--- if exist
+-- remove a database
+
 DROP DATABASE IF EXISTS hbtn_0c_0;

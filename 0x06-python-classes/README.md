@@ -1,3 +1,1 @@
-0x06. Python - Classes and Objects
-Python
-OOP
+0x06-python-classes

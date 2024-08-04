@@ -1,27 +1,22 @@
 #!/usr/bin/python3
-'''Python script that takes in a letter and sends a POST request
-to http://0.0.0.0:5000/search_user with the letter as a parameter'''
+"""
+- takes in a letter
+- sends POST request to http://0.0.0.0:5000/search_user
+"""
+import sys
 import requests
-from sys import argv
 
 
-def main():
-    '''Entry point'''
-    if len(argv) > 1:
-        q = argv[1]
-    else:
-        q = ''
-    url = 'http://0.0.0.0:5000/search_user'
+if __name__ == "__main__":
+    letter = "" if len(sys.argv) == 1 else sys.argv[1]
+    payload = {"q": letter}
+
+    r = requests.post("http://0.0.0.0:5000/search_user", data=payload)
     try:
-        r = requests.post(url, data={'q': q})
-        json = r.json()
-        if len(json) == 0:
-            print('No result')
+        response = r.json()
+        if response == {}:
+            print("No result")
         else:
-            print('[{}] {}'.format(json.get('id'), json.get('name')))
-    except Exception as e:
-        print('Not a valid JSON')
-
-
-if __name__ == '__main__':
-    main()
+            print("[{}] {}".format(response.get("id"), response.get("name")))
+    except ValueError:
+        print("Not a valid JSON")

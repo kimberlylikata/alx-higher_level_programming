@@ -1,3 +1,2 @@
-0x0D. SQL - Introduction
-SQL
-MySQL
+# SQL - INTRODUCTION
+ - Welcome to SQL with MySQL

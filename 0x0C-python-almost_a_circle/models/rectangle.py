@@ -1,177 +1,218 @@
-#!/bin/usr/python3
-"""
-Rectangle module
-"""
+#!/usr/bin/python3
+
+"""Defines a Rectangle object."""
+
 from models.base import Base
 
 
 class Rectangle(Base):
-    """
-    Rectangle class
-    """
-    def __init__(self, width, height, x=0, y=0, id=None):
-        """Initialize a new Rectangle.
+    """Models a Rectangle object."""
+
+    def __init__(
+        self, width: int, height: int, x: int = 0, y: int = 0, id=None
+    ) -> None:
+        """
+        Initializes a Rectangle object.
+
+        Args:
+            width (int): The width of the shape.
+            height (int): The height of the shape.
+            x (int, optional): x value. Defaults to 0.
+            y (int, optional): y value. Defaults to 0.
+            id (int, optional): The ID of the object. Defaults to None.
         """
         super().__init__(id)
-
         self.width = width
         self.height = height
         self.x = x
         self.y = y
 
-    @property
-    def width(self):
+    def __str__(self) -> str:
         """
-        width getter
+        Returns information about the Rectangle instance.
+
+        Returns:
+            str: Information about the Rectangle instance.
+        """
+        return (
+            f"[{self.__class__.__name__}] ({self.id}) "
+            f"{self.x}/{self.y} - {self.width}/{self.height}"
+        )
+
+    @property
+    def width(self) -> int:
+        """
+        Returns the width.
+
+        Returns:
+            int: The width of the shape.
         """
         return self.__width
 
     @width.setter
-    def width(self, value):
+    def width(self, value: int) -> None:
         """
-        Width setter
+        Sets and/or updates the shape's width.
+
+        Args:
+            value (int): The value to assign to width.
+
+        Raises:
+            TypeError: If the `value` provided is not an integer.
+            ValueError: If the `value` is less than or equal to zero.
         """
-        # added a check for when value is a bool, if the check is removed
-        # the unittest for it will fail
-        if not isinstance(value, int) or isinstance(value, bool):
+        if type(value) is not int:
             raise TypeError("width must be an integer")
+
         if value <= 0:
             raise ValueError("width must be > 0")
+
         self.__width = value
 
     @property
-    def height(self):
+    def height(self) -> int:
         """
-        height getter
+        Returns the height.
+
+        Returns:
+            int: The height of the shape.
         """
         return self.__height
 
     @height.setter
-    def height(self, value):
+    def height(self, value: int) -> None:
         """
-        height setter
+        Sets and/or updates the shape's height.
+
+        Args:
+            value (int): The value to assign to height.
+
+        Raises:
+            TypeError: If the `value` provided is not an integer.
+            ValueError: If the `value` is less than or equal to zero.
         """
-        if not isinstance(value, int):
+        if type(value) is not int:
             raise TypeError("height must be an integer")
+
         if value <= 0:
             raise ValueError("height must be > 0")
 
         self.__height = value
 
     @property
-    def x(self):
+    def x(self) -> int:
         """
-        x getter
+        Returns the value of `x`.
+
+        Returns:
+            int: The value of `x`.
         """
         return self.__x
 
     @x.setter
-    def x(self, value):
+    def x(self, value: int) -> None:
         """
-        x setter
+        Sets and/or updates the value of `x`.
+
+        Args:
+            value (int): The value to assign to x.
+
+        Raises:
+            TypeError: If the `value` provided is not an integer.
+            ValueError: If the `value` is less than zero.
         """
-        # added a check for when value is a bool, if the check is removed
-        # the unittest for it will fail
-        if not isinstance(value, int) or isinstance(value, bool):
+        if type(value) is not int:
             raise TypeError("x must be an integer")
+
         if value < 0:
             raise ValueError("x must be >= 0")
+
         self.__x = value
 
     @property
-    def y(self):
+    def y(self) -> int:
         """
-        y getter
+        Returns the width.
+
+        Returns:
+            int: The width of the shape.
         """
         return self.__y
 
     @y.setter
-    def y(self, value):
+    def y(self, value: int) -> None:
         """
-        y setter
+        Sets and/or updates the value of `y`.
+
+        Args:
+            value (int): The value to assign to width.
+
+        Raises:
+            TypeError: If the `value` provided is not an integer.
+            ValueError: If the `value` is less than zero.
         """
-        if not isinstance(value, int):
+        if type(value) is not int:
             raise TypeError("y must be an integer")
+
         if value < 0:
             raise ValueError("y must be >= 0")
+
         self.__y = value
 
-    def area(self):
+    def area(self) -> int:
         """
-        Returna area of the rectangle
-        """
-        area = self.width * self.height
+        Returns the area of the Rectangle object.
 
-        return area
-
-    def display(self):
+        Returns:
+            int: The area of the Rectangle object.
         """
-        Prints size of rectangle using #
+        return self.width * self.height
+
+    def display(self) -> None:
+        """
+        Prints the visual of the Rectangle instance with the `#` character.
         """
         for _ in range(self.y):
             print()
 
         for _ in range(self.height):
-            print(" " * self.x + "#" * self.width)
+            print(" " * self.x, end="")
+            print("#" * self.width)
 
-    def __str__(self):
+    def update(self, *args, **kwargs) -> None:
         """
-        Return the print() and str() representation of the Rectangle.
+        Updates attributes with the values in the provided `args`.
         """
-        return "[Rectangle] ({}) {}/{} - {}/{}".format(self.id,
-                                                       self.x,
-                                                       self.y,
-                                                       self.width,
-                                                       self.height)
+        if args is not None and len(args) > len(self.__dict__.keys()):
+            raise ValueError("excess positional arguments than expected")
 
-    def update(self, *args, **kwargs):
-        """
-        Assign arguments to attributes based on their positions.
-        """
-        if args:
-            for count, arg in enumerate(args):
-                if count == 0:
-                    self.id = arg
-                elif count == 1:
-                    self.width = arg
-                elif count == 2:
-                    self.height = arg
-                elif count == 3:
-                    self.x = arg
-                elif count == 4:
-                    self.y = arg
-                else:
-                    break
-                
-        elif len(kwargs) > 0:
-            for key, value in kwargs.items():
-                if key == "id":
-                    self.id = value
-                elif key == "width":
-                    self.width = value
-                elif key == "height":
-                    self.height = value
-                elif key == "x":
-                    self.x = value
-                elif key == "y":
-                    self.y = value
-                # removed the break statement, incase if the passed args are greater
-                # than 5, and one of the attributes is at the end
+        # attempt to use the *args if it's present and not empty
+        if args is not None and len(args) > 0:
+            keys = list(self.__dict__)
 
-    def to_dictionary(self):
+            for i, arg in enumerate(args):
+                self.__dict__[keys[i]] = arg
+
+            return  # we are done here if the *args was not empty, return
+
+        # use the keyword arguments instead since the *args was unavailable
+        for attr, value in kwargs.items():
+            if not hasattr(self, attr):
+                raise AttributeError(f"invalid attribute name: '{attr}'")
+
+            setattr(self, attr, value)
+
+    def to_dictionary(self) -> dict:
         """
-        Represents a dictionary representation of rectangle
+        Returns the dictionary representation of a Rectangle instance.
+
+        Returns:
+            dict: The dictionary representation of a Rectangle instance.
         """
-        rec_dict = {
-                "id": self.id,
-                "width": self.width,
-                "height": self.height,
-                "x": self.x,
-                "y": self.y
+        return {
+            "x": self.__x,
+            "y": self.__y,
+            "id": self.id,
+            "height": self.__height,
+            "width": self.__width,
         }
-
-        return rec_dict
-
-
-if __name__ == "__main__":
-    pass

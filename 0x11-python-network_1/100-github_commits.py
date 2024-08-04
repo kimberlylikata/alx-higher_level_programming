@@ -1,28 +1,20 @@
 #!/usr/bin/python3
-'''Python script that takes your GitHub credentials (username and password)
-and uses the GitHub API to display your id'''
+"""lists the 10 most recent commits on a GitHub repo
+"""
+import sys
 import requests
-from sys import argv
 
 
-def main():
-    '''Entry point'''
-    repo = argv[1]
-    owner = argv[2]
-    url = f'https://api.github.com/repos/{owner}/{repo}/commits'
-    header = {'owner': owner,
-              'repo': repo,
-              }
-    r = requests.get(url, headers=header)
-    rs = sorted(r.json(), key=lambda d: d['commit']['author']['date'],
-                reverse=True)
+if __name__ == "__main__":
+    url = "https://api.github.com/repos/{}/{}/commits".format(
+        sys.argv[2], sys.argv[1])
+
+    r = requests.get(url)
+    commits = r.json()
     try:
         for i in range(10):
-            print('{}: {}'.format(rs[i].get('sha'),
-                                  rs[i].get("commit")['author']['name']))
+            print("{}: {}".format(
+                commits[i].get("sha"),
+                commits[i].get("commit").get("author").get("name")))
     except IndexError:
         pass
-
-
-if __name__ == '__main__':
-    main()
